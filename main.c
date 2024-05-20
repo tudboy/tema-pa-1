@@ -1,16 +1,13 @@
 #include "header.h"
 
 int main(int argc, char *argv[]){
-    //printf("task: %s\n", argv[1]);
-    //printf("intrare: %s\n", argv[2]);
-    //printf("Iesire: %s\n", argv[3]);
 
     int numarEchipe;
     char spatiu;
     Node* head;
     head = NULL;
 
-    Echipa* team=(Echipa*)malloc(sizeof(Echipa));
+    Echipa* team;
 
     FILE *in, *out;
 
@@ -65,18 +62,18 @@ int main(int argc, char *argv[]){
         printf("fisierul nu poate fi accesat");
         exit(1);
     }
-
-    while(head != NULL)
+    Node* curent=head;
+    while(curent != NULL)
     {
-        fprintf(out,"%s", head->echipe->numeEchipa);
+
+        fprintf(out,"%s", curent->echipe->numeEchipa);
         fprintf(out, "\n");
-        head= head->urmatorul;
-
+        curent= curent->urmatorul;
     }
-
-    
     fclose(in);
     fclose(out);
+    elibereazaEchipe(head);
+
     return 0;
 
 

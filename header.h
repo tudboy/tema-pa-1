@@ -26,3 +26,4 @@ struct Elem{
 typedef struct Elem Node;
 
 void adaugaLaInceput(Node**, Echipa*);
+void elibereazaEchipe(Node*);
