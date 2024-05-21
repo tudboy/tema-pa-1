@@ -33,3 +33,74 @@ void elibereazaEchipe(Node* team)
         echipaCurenta=urmator;
     }
 }
+
+void elibereazaEchipa(Node* team){
+     Node* echipaCurenta = team;
+        for(int i=0;i<echipaCurenta->echipe->numarJucatori;i++)
+        {
+            free(echipaCurenta->echipe->jucatori[i].firstName);
+            free(echipaCurenta->echipe->jucatori[i].secondName);
+        }
+        free(echipaCurenta->echipe->numeEchipa);
+        free(echipaCurenta);
+}
+
+int minim(Node* curent,int min)
+{
+    while(curent != NULL)
+    {    
+        if(curent->echipe->PuncteEchipa < min)
+        {
+            min=curent->echipe->PuncteEchipa;
+        }
+        curent= curent->urmatorul;
+    }
+    return min;
+}
+
+void stergere_element(Node *curent, int min)
+{
+    if(curent==NULL) return;
+
+    Node *copieCurent = curent;
+    Node* anterior = NULL;
+
+    anterior = curent;
+    copieCurent=copieCurent->urmatorul;
+    while(copieCurent != NULL)
+    {
+        if(copieCurent->echipe->PuncteEchipa == min)
+        {
+            anterior->urmatorul = copieCurent->urmatorul;
+            elibereazaEchipa(copieCurent);
+            return;
+        }
+        anterior= copieCurent;
+        copieCurent = copieCurent->urmatorul;
+
+    }
+
+}
+
+void eliminare_din_lista(Node** curent,int min)
+{
+
+ if((*curent)->echipe->PuncteEchipa == min)
+    {
+        Node *copieCurent = *curent;
+        (*curent) = (*curent)->urmatorul;
+        elibereazaEchipa(copieCurent);
+        return;
+    }
+    while((*curent) != NULL)
+       {
+            if((*curent)->echipe->PuncteEchipa == min);
+            {
+                stergere_element((*curent),min);
+                return;
+            }
+            
+            (*curent)= (*curent)->urmatorul;
+       }
+       
+}
