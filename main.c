@@ -6,6 +6,7 @@ int main(int argc, char *argv[]){
     char spatiu;
     Node* head;
     head = NULL;
+    Node_lista_coada* headListaCoada=NULL;
 
     Echipa* team;
 
@@ -53,13 +54,10 @@ int main(int argc, char *argv[]){
         fscanf(in,"%c",&spatiu);
 
         team->numeEchipa=(char*)malloc(101);
-
         fgets(team->numeEchipa,100,in);
-
-        if(team->numeEchipa[strlen(team->numeEchipa)-1]=='\n')
-        {
-            team->numeEchipa[strlen(team->numeEchipa)-1]=0;
-        }
+        team->numeEchipa[strcspn(team->numeEchipa,"\r\n")]=0;
+        if(team->numeEchipa[strlen(team->numeEchipa)-1]==' ')
+            team->numeEchipa[strlen(team->numeEchipa)-1]='\0';
 
         team->jucatori=(Jucator*)malloc(team->numarJucatori*sizeof(Jucator));
         for(int j=0;j<team->numarJucatori;j++)
@@ -78,13 +76,13 @@ int main(int argc, char *argv[]){
 
     if(taskVector[0]==1 && taskVector[1]== 0)
     {
-        Node* curent1=head;
-        while(curent1 != NULL)
+        Node* copieHead1=head;
+        while(copieHead1 != NULL)
         {
 
-            fprintf(out,"%s", curent1->echipe->numeEchipa);
+            fprintf(out,"%s", copieHead1->echipe->numeEchipa);
             fprintf(out, "\n");
-            curent1= curent1->urmatorul;
+            copieHead1= copieHead1->urmatorul;
         }
     }
 
@@ -93,32 +91,144 @@ int main(int argc, char *argv[]){
 
     // task 2
 
-    int CopieNumarEchipe = numarEchipe;
-    while(! is_power2(CopieNumarEchipe))
+    while(! is_power2(numarEchipe))
     {
-        int min=head->echipe->PuncteEchipa;
+        float min=head->echipe->PuncteEchipa;
         min= minim(head, min);
         eliminare_din_lista(&head,min);
-        CopieNumarEchipe--;
+        numarEchipe--;
        
     }  
-    if(taskVector[1]==1 && taskVector[2]== 0)
+    if(taskVector[1]==1 || taskVector[2]==1 || taskVector[3]== 1 || taskVector[4] == 1)
     {
-        Node* curent2=head;
-        while(curent2 != NULL)
+        Node* copieHead2=head;
+        while(copieHead2 != NULL)
         {
-            fprintf(out,"%s", curent2->echipe->numeEchipa);
+            fprintf(out,"%s", copieHead2->echipe->numeEchipa);
             fprintf(out, "\n");
-            curent2= curent2->urmatorul;
+            copieHead2= copieHead2->urmatorul;
         }
     }  
     // !task 2
 
-    if(taskVector[2]==1 && taskVector[3]== 0)
-    {
-     
+
+
+
+
+
+
+
+
+    // !task 3
+    Node* copieHead3=head;
+    Echipa *primaEchipa, *aDouaEchipa;
+    for(;copieHead3 != NULL && copieHead3->urmatorul != NULL;copieHead3=copieHead3->urmatorul->urmatorul){
+        primaEchipa = copieHead3->echipe;
+        aDouaEchipa = copieHead3->urmatorul->echipe;
+        adaugaLaFinalListaCoada(&headListaCoada,primaEchipa, aDouaEchipa);
     }
-    if(taskVector[3]==1 && taskVector[4]== 0)
+
+    coada* coadaMeciuri=creareCoada();
+    Node_lista_coada* copieHeadListaCoada=headListaCoada;
+    for(int i=0;i<numarEchipe/2;i++)
+    {
+        AdaugareInCoada(coadaMeciuri,copieHeadListaCoada);
+        copieHeadListaCoada=copieHeadListaCoada->urmatorul;
+        
+    } 
+    //
+    Node* headListaUltimii8 = NULL;
+
+    int i=1;
+    while(numarEchipe != 1)
+    {
+    if(taskVector[2]==1 || taskVector[3]== 1 || taskVector[4] == 1)
+    {
+        fprintf(out,"\n");
+        fprintf(out,"--- ROUND NO:%d\n",i);
+        Node_lista_coada* temp= coadaMeciuri->front;
+        while(temp != NULL)
+        {
+            fprintf(out,"%-32s - ", temp->echipa1->numeEchipa);
+            fprintf(out,"%32s", temp->echipa2->numeEchipa);
+            temp=temp->urmatorul;
+            fprintf(out,"\n");
+        }
+        fprintf(out,"\n");
+    }
+
+    Stiva *stivaCastigatoriTop=NULL, *stivaPierzatoriTop=NULL;
+    Node_lista_coada* temp = coadaMeciuri->front;
+    while(temp != NULL)
+    {
+        if(temp->echipa1->PuncteEchipa > temp->echipa2->PuncteEchipa)
+        {
+            BagaInStivaEchipa1(&stivaCastigatoriTop,temp);
+            BagaInStivaEchipa2(&stivaPierzatoriTop,temp);
+        }
+        if(temp->echipa1->PuncteEchipa < temp->echipa2->PuncteEchipa)
+        {
+            BagaInStivaEchipa1(&stivaPierzatoriTop,temp);
+            BagaInStivaEchipa2(&stivaCastigatoriTop,temp);
+        }
+        if(temp->echipa1->PuncteEchipa == temp->echipa2->PuncteEchipa)
+        {
+            BagaInStivaEchipa1(&stivaPierzatoriTop,temp);
+            BagaInStivaEchipa2(&stivaCastigatoriTop,temp);
+        }
+        temp=temp->urmatorul;
+    }
+    Stiva* stivaCastigatoriTop1=stivaCastigatoriTop;
+    while(stivaCastigatoriTop1 != NULL)
+    {
+        for(int i=0;i<stivaCastigatoriTop1->echipaStiva->numarJucatori;i++)
+        {
+            stivaCastigatoriTop1->echipaStiva->jucatori[i].points= stivaCastigatoriTop1->echipaStiva->jucatori[i].points+1;
+            stivaCastigatoriTop1->echipaStiva->PuncteEchipa=stivaCastigatoriTop1->echipaStiva->PuncteEchipa+1;
+        }
+        stivaCastigatoriTop1=stivaCastigatoriTop1->urmatorul;
+    }
+    stivaCastigatoriTop1=stivaCastigatoriTop;
+    if(taskVector[2]==1 || taskVector[3]== 1 || taskVector[4] == 1)
+    {
+        fprintf(out,"WINNERS OF ROUND NO:%d\n",i);
+        while(stivaCastigatoriTop1 != NULL)
+        {
+            fprintf(out,"%-32s  -  %.2f\n",stivaCastigatoriTop1->echipaStiva->numeEchipa,stivaCastigatoriTop1->echipaStiva->PuncteEchipa/stivaCastigatoriTop1->echipaStiva->numarJucatori);
+            stivaCastigatoriTop1=stivaCastigatoriTop1->urmatorul;
+        }
+
+    }
+
+    if(numarEchipe==16)
+    {
+        stivaCastigatoriTop1=stivaCastigatoriTop;
+        while(stivaCastigatoriTop1 != NULL)
+        {
+            adaugaLaInceput(&headListaUltimii8,stivaCastigatoriTop1->echipaStiva);
+            stivaCastigatoriTop1=stivaCastigatoriTop1->urmatorul;
+        }
+    }
+    
+    coadaMeciuri->rear=NULL;
+    coadaMeciuri->front=NULL;
+
+    stivaCastigatoriTop1=stivaCastigatoriTop;
+    while(stivaCastigatoriTop1 != NULL && stivaCastigatoriTop1->urmatorul != NULL)
+    {
+    AdaugareInCoadaStiva(coadaMeciuri,stivaCastigatoriTop1->echipaStiva,stivaCastigatoriTop1->urmatorul->echipaStiva);
+    stivaCastigatoriTop1=stivaCastigatoriTop1->urmatorul->urmatorul;
+    }
+    stergereStiva(&stivaCastigatoriTop);
+    stergereStiva(&stivaPierzatoriTop);
+
+    numarEchipe=numarEchipe/2;
+    i++;
+    }
+
+    // !task 3
+
+    if(taskVector[3]==1 || taskVector[4]== 1)
     {
      
     }

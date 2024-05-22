@@ -1,6 +1,6 @@
 #include "header.h"
 
-
+// functie adaugare in lista principala
 void adaugaLaInceput(Node** head, Echipa* team)
 {
     Node* newNode=(Node*)malloc(sizeof(Node));
@@ -9,11 +9,41 @@ void adaugaLaInceput(Node** head, Echipa* team)
     *head=newNode;
 }
 
+// functie adaugare in lista pentru coada
+void adaugaLaInceputListaCoada(Node_lista_coada** head, Echipa* echipa1, Echipa* echipa2)
+{
+    Node_lista_coada* newNode=(Node_lista_coada*)malloc(sizeof(Node_lista_coada));
+    newNode->echipa1 = echipa1;
+    newNode->echipa2 = echipa2;
+    newNode->urmatorul = *head;
+    *head=newNode;
+}
+
+// functie adaugare la finalul listei pentru coada
+void adaugaLaFinalListaCoada(Node_lista_coada** head, Echipa* echipa1, Echipa* echipa2)
+{
+    Node_lista_coada *aux= *head;
+    Node_lista_coada* newNode=(Node_lista_coada*)malloc(sizeof(Node_lista_coada));
+    newNode->echipa1 = echipa1;
+    newNode->echipa2 = echipa2;
+    if(*head == NULL) adaugaLaInceputListaCoada(&*head,echipa1,echipa2);
+    else
+    {
+        while(aux->urmatorul != NULL) aux = aux->urmatorul;
+        aux->urmatorul = newNode;
+        newNode->urmatorul = NULL;
+
+    }
+}
+
+//functie verificare daca un numar este putere a lui 2 (se verifica pe biti) 
 char is_power2(int n)
 {
+    //returneaza 1 sau 0: daca returneaza 1 nu este putere a lui 2, dar daca returneaza 0 este putere a lui 2
     return !(n&(n-1));
 }
 
+// functie de eliberare a memoriei pentru toate echipele
 void elibereazaEchipe(Node* team)
 {
     Node* echipaCurenta = team;
@@ -34,6 +64,7 @@ void elibereazaEchipe(Node* team)
     }
 }
 
+// functie eliberare memorie doar pentru o echipa
 void elibereazaEchipa(Node* team){
      Node* echipaCurenta = team;
         for(int i=0;i<echipaCurenta->echipe->numarJucatori;i++)
@@ -45,7 +76,8 @@ void elibereazaEchipa(Node* team){
         free(echipaCurenta);
 }
 
-int minim(Node* curent,int min)
+// functie gasire minimul punctelor unei echipe prin parcurgerea listei o singura data
+int minim(Node* curent,float min)
 {
     while(curent != NULL)
     {    
@@ -58,7 +90,8 @@ int minim(Node* curent,int min)
     return min;
 }
 
-void stergere_element(Node *curent, int min)
+// functie de stergere a unui element din lista
+void stergere_element(Node *curent, float min)
 {
     if(curent==NULL) return;
 
@@ -82,7 +115,8 @@ void stergere_element(Node *curent, int min)
 
 }
 
-void eliminare_din_lista(Node** curent,int min)
+//functia principala de stergere a unui element din lista
+void eliminare_din_lista(Node** curent,float min)
 {
 
  if((*curent)->echipe->PuncteEchipa == min)
@@ -103,4 +137,101 @@ void eliminare_din_lista(Node** curent,int min)
             (*curent)= (*curent)->urmatorul;
        }
        
+}
+
+//functie creare coada 
+coada* creareCoada()
+{
+    coada *q;
+    q=(coada*)malloc(sizeof(coada));
+    if(q==NULL) return NULL;
+    q->front=q->rear=NULL;
+    return q;
+}
+
+
+//functie adaugare in coada
+void AdaugareInCoada(coada*q, Node_lista_coada* team)
+{
+    Node_lista_coada* newNode = (Node_lista_coada*)malloc(sizeof(Node_lista_coada));
+    newNode->echipa1 = team->echipa1;
+    newNode->echipa2 = team->echipa2;
+    newNode->urmatorul = NULL;
+    if(q->rear==NULL) q->rear = newNode;
+    else
+    {
+        (q->rear)->urmatorul = newNode;
+        (q->rear)=newNode;
+    }
+    if(q->front == NULL) q->front = q->rear;
+}
+
+void BagaInStivaEchipa1(Stiva** top, Node_lista_coada* team )
+{
+    Stiva* newNode=(Stiva*)malloc(sizeof(Stiva));
+    newNode->echipaStiva=team->echipa1;
+    newNode->urmatorul = *top;
+    *top = newNode;
+}
+
+void BagaInStivaEchipa2(Stiva** top, Node_lista_coada* team )
+{
+    Stiva* newNode=(Stiva*)malloc(sizeof(Stiva));
+    newNode->echipaStiva=team->echipa2;
+    newNode->urmatorul = *top;
+    *top = newNode;
+}
+
+int isEmpty(coada* q)
+{
+    return(q->front == NULL);
+}
+
+void stergereCoada(coada *q)
+{
+    Node_lista_coada* aux;
+    while(!isEmpty(q))
+    {
+        aux=q->front;
+        q->front=q->front->urmatorul;
+        free(aux);
+    }
+    
+}
+
+void AdaugareInCoadaStiva(coada*q, Echipa* team1, Echipa* team2)
+{
+    Node_lista_coada* newNode = (Node_lista_coada*)malloc(sizeof(Node_lista_coada));
+    newNode->echipa1 = team1;
+    newNode->echipa2 = team2;
+    newNode->urmatorul = NULL;
+    if(q->rear==NULL) q->rear = newNode;
+    else
+    {
+        (q->rear)->urmatorul = newNode;
+        (q->rear)=newNode;
+    }
+    if(q->front == NULL) q->front = q->rear;
+}
+
+void stergereStiva(Stiva **top)
+{
+    Stiva *temp;
+    while((*top)!=NULL)
+    {
+        temp=*top;
+        *top=(*top)->urmatorul;
+        free(temp);
+    }
+
+}
+
+int putere_doi(int i)
+{
+    int putere=1;
+    for(int j=0; j<i;j++)
+    {
+        putere=putere*j;
+    }
+    return putere;
 }
