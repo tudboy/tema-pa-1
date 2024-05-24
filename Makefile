@@ -1,4 +1,4 @@
 all:
-	gcc main.c functii_folositoare.c -o main
+	gcc lanParty.c functii_folositoare.c -o lanParty
 clean:
 	rm -f main

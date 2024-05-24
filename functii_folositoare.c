@@ -9,6 +9,16 @@ void adaugaLaInceput(Node** head, Echipa* team)
     *head=newNode;
 }
 
+void adaugaLaInceputCastigatori8(NodeCastigatori** head,Echipa* team)
+{
+    NodeCastigatori* newNode=(NodeCastigatori*)malloc(sizeof(NodeCastigatori));
+    newNode->numeEchipa = team->numeEchipa;
+    newNode->PuncteEchipa = team->PuncteEchipa/team->numarJucatori;
+    newNode->urmatorul = *head;
+    *head=newNode;
+}
+
+
 // functie adaugare in lista pentru coada
 void adaugaLaInceputListaCoada(Node_lista_coada** head, Echipa* echipa1, Echipa* echipa2)
 {
@@ -234,4 +244,46 @@ int putere_doi(int i)
         putere=putere*j;
     }
     return putere;
+}
+
+NodeBST* newNode(char* nume,float puncte)
+{
+    NodeBST* node = (NodeBST*)malloc(sizeof(NodeBST));
+    node->numeEchipa = nume;
+    node->PuncteEchipa=puncte;
+    node->left = node->right = NULL;
+    return node;
+}
+
+NodeBST* insert(NodeBST* node, char* nume,float puncte)
+{
+    if(node == NULL) return newNode (nume, puncte);
+    if(puncte < node->PuncteEchipa)
+    {
+        node->left = insert(node->left, nume,puncte);  
+    }
+    if(puncte > node->PuncteEchipa)
+    {
+        node->right = insert(node->right, nume,puncte);  
+    }
+    if(puncte == node->PuncteEchipa)
+    {
+        if(strcmp(nume,node->numeEchipa)>0)
+        {
+            node->right = insert(node->right, nume,puncte);
+        }
+        else node->left = insert(node->left, nume,puncte);
+    }
+    return node;
+}
+
+void printare(NodeBST* root,FILE* out)
+{
+    if (root != NULL)
+     {
+        printare(root->right,out);
+        fprintf(out,"%-32s  -  %.2f\n", root->numeEchipa,root->PuncteEchipa);
+        printare(root->left,out);
+
+    }
 }

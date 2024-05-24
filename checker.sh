@@ -9,7 +9,7 @@
 #------------------------------------------------------------------------------
 
 # Exec name
-EXEC_NAME=main
+EXEC_NAME=lanParty
 
 # Teste Normale
 FILE_TEST_DATE_1="date/t%d/d.in"

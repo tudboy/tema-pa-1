@@ -26,6 +26,15 @@ struct Elem{
 
 typedef struct Elem Node;
 
+struct ElemCastigatori{
+    float PuncteEchipa;
+    char* numeEchipa;
+    struct ElemCastigatori* urmatorul;
+};
+
+typedef struct ElemCastigatori NodeCastigatori;
+
+
 struct elem{
     Echipa* echipa1;
     Echipa* echipa2;
@@ -47,7 +56,17 @@ struct Q{
 
 typedef struct Q coada;
 
+struct BST{
+    char *numeEchipa;
+    float PuncteEchipa;
+    struct BST* left;
+    struct BST* right;
+};
+
+typedef struct BST NodeBST;
+
 void adaugaLaInceput(Node**, Echipa*);
+void adaugaLaInceputCastigatori8(NodeCastigatori**, Echipa*);
 void elibereazaEchipe(Node*);
 char is_power2(int);
 void eliminare_din_lista(Node**,float);
@@ -61,3 +80,6 @@ void BagaInStivaEchipa2(Stiva**,Node_lista_coada*);
 void stergereCoada(coada*);
 void AdaugareInCoadaStiva(coada*,Echipa*,Echipa*);
 void stergereStiva(Stiva **);
+NodeBST* insert(NodeBST*, char*,float);
+void printare(NodeBST*,FILE*);
+
