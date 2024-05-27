@@ -206,6 +206,7 @@ void stergereCoada(coada *q)
         q->front=q->front->urmatorul;
         free(aux);
     }
+    free(q);
     
 }
 
@@ -287,3 +288,115 @@ void printare(NodeBST* root,FILE* out)
 
     }
 }
+
+
+
+int max(int a, int b)
+{
+    return((a>b)?a:b);
+}
+
+int nodeHeight(NodeAVL* root)
+{
+    if(root == NULL) return -1;
+    else return root->height;
+}
+
+NodeAVL *RightRotation(NodeAVL *z)
+{
+    NodeAVL *y = z->left;
+    NodeAVL *T3 = y->right;
+
+    y->right = z;
+    z->left = T3;
+
+    z->height = max(nodeHeight(z->left),nodeHeight(z->right))+1;
+    y->height = max(nodeHeight(y->left),nodeHeight(y->right))+1;
+    return y;
+}
+
+NodeAVL *LeftRotation(NodeAVL *z)
+{
+    NodeAVL *y = z->right;
+    NodeAVL *T2 = y->left;
+
+    y->left = z;
+    z->right = T2;
+
+    z->height = max(nodeHeight(z->left),nodeHeight(z->right))+1;
+    y->height = max(nodeHeight(y->left),nodeHeight(y->right))+1;
+    return y;
+}
+
+NodeAVL* insertAVL(NodeAVL* node, float puncte, char* nume)
+{
+    if(node == NULL)
+    {
+        node=(NodeAVL*)malloc(sizeof(NodeAVL));
+        node->numeEchipa=nume;
+        node->puncteEchipa=puncte;
+        node->height=0;
+        node->left=node->right=NULL;
+        return node;
+    }
+    if(puncte > node->puncteEchipa)
+    {
+        node->right = insertAVL(node->right, puncte, nume);
+    }
+    else
+    {
+        node->left = insertAVL(node->left, puncte, nume);
+    }
+
+    node->height = 1 + max(nodeHeight(node->left),nodeHeight(node->right));
+
+    int k =(nodeHeight(node->left) - nodeHeight(node->right));
+
+    if(k > 1 && puncte <= node->left->puncteEchipa)
+    {
+        return RightRotation(node);
+    }
+    if(k < -1 && puncte >= node->right->puncteEchipa)
+    {
+        return LeftRotation(node);
+    }
+    return node;
+}
+
+void bagareInAVL(NodeBST* root,NodeAVL** rootAVL)
+{
+    if (root != NULL)
+     {
+        bagareInAVL(root->right,rootAVL);
+        *rootAVL=insertAVL(*rootAVL,root->PuncteEchipa,root->numeEchipa);
+        bagareInAVL(root->left,rootAVL);
+        
+    }
+}
+
+void printLevel(NodeAVL* root, int level,FILE* out)
+{
+    if(root == NULL) return;
+    if(level == 1)
+    {
+        fprintf(out,"%s\n",root->numeEchipa);
+    }
+    else if(level>1)
+    {
+       
+        printLevel(root->right, level-1,out);
+        printLevel(root->left, level-1,out);
+    }
+}
+void elibereazaEchipeListaCastigatori(NodeCastigatori* team)
+{
+    NodeCastigatori* echipaCurenta = team;
+    while(echipaCurenta != NULL)
+    {
+        NodeCastigatori* urmator= echipaCurenta->urmatorul;
+        free(echipaCurenta->numeEchipa);
+        free(echipaCurenta);
+        echipaCurenta=urmator;
+    }
+}
+

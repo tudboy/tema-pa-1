@@ -76,13 +76,13 @@ int main(int argc, char *argv[]){
 
     if(taskVector[0]==1 && taskVector[1]== 0)
     {
-        Node* copieHead1=head;
-        while(copieHead1 != NULL)
+        Node* copieHead=head;
+        while(copieHead != NULL)
         {
 
-            fprintf(out,"%s", copieHead1->echipe->numeEchipa);
+            fprintf(out,"%s", copieHead->echipe->numeEchipa);
             fprintf(out, "\n");
-            copieHead1= copieHead1->urmatorul;
+            copieHead= copieHead->urmatorul;
         }
     }
     // !task 1
@@ -98,23 +98,23 @@ int main(int argc, char *argv[]){
     }  
     if(taskVector[1]==1 || taskVector[2]==1 || taskVector[3]== 1 || taskVector[4] == 1)
     {
-        Node* copieHead2=head;
-        while(copieHead2 != NULL)
+        Node* copieHead=head;
+        while(copieHead != NULL)
         {
-            fprintf(out,"%s", copieHead2->echipe->numeEchipa);
+            fprintf(out,"%s", copieHead->echipe->numeEchipa);
             fprintf(out, "\n");
-            copieHead2= copieHead2->urmatorul;
+            copieHead= copieHead->urmatorul;
         }
     }  
     // !task 2
 
     // !task 3
-    Node* copieHead3=head;
+    Node* copieHead=head;
     Echipa *primaEchipa, *aDouaEchipa;
-    for(;copieHead3 != NULL && copieHead3->urmatorul != NULL;copieHead3=copieHead3->urmatorul->urmatorul)
+    for(;copieHead != NULL && copieHead->urmatorul != NULL;copieHead=copieHead->urmatorul->urmatorul)
     {
-        primaEchipa = copieHead3->echipe;
-        aDouaEchipa = copieHead3->urmatorul->echipe;
+        primaEchipa = copieHead->echipe;
+        aDouaEchipa = copieHead->urmatorul->echipe;
         adaugaLaFinalListaCoada(&headListaCoada,primaEchipa, aDouaEchipa);
     }
 
@@ -213,16 +213,6 @@ int main(int argc, char *argv[]){
         numarEchipe=numarEchipe/2;
         i++;
     }
-    /*if(taskVector[3]==1 && taskVector[4] == 0) 
-    {
-    NodeCastigatori* CopieHeadListaUltimii8=headListaUltimii8;
-    while(CopieHeadListaUltimii8 != NULL)
-    {
-        printf("%s          %f\n",CopieHeadListaUltimii8->numeEchipa,CopieHeadListaUltimii8->PuncteEchipa);
-        CopieHeadListaUltimii8=CopieHeadListaUltimii8->urmatorul;
-    }
-    }
-    */
     // !task 3
 
     // task 4
@@ -245,9 +235,12 @@ int main(int argc, char *argv[]){
     // task 5
     if(taskVector[4]==1 )
     {
+        NodeBST *copieRoot=root;
+        NodeAVL *rootAVL=NULL;
+        bagareInAVL(copieRoot, &rootAVL);
         fprintf(out,"\n");
         fprintf(out,"THE LEVEL 2 TEAMS ARE: \n");
-    
+        printLevel(rootAVL,3,out);
     }
     // !task 5
     
@@ -255,6 +248,8 @@ int main(int argc, char *argv[]){
     fclose(in);
     fclose(out);
     elibereazaEchipe(head);
+    elibereazaEchipeListaCastigatori(headListaUltimii8);
+    stergereCoada(coadaMeciuri);
     return 0;
 }
 

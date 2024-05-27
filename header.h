@@ -65,6 +65,14 @@ struct BST{
 
 typedef struct BST NodeBST;
 
+struct AVL{
+    int height;
+    char* numeEchipa;
+    float puncteEchipa;
+    struct AVL *left, *right;
+};
+typedef struct AVL NodeAVL;
+
 void adaugaLaInceput(Node**, Echipa*);
 void adaugaLaInceputCastigatori8(NodeCastigatori**, Echipa*);
 void elibereazaEchipe(Node*);
@@ -82,4 +90,10 @@ void AdaugareInCoadaStiva(coada*,Echipa*,Echipa*);
 void stergereStiva(Stiva **);
 NodeBST* insert(NodeBST*, char*,float);
 void printare(NodeBST*,FILE*);
+NodeAVL* insertAVL(NodeAVL* , float , char*);
+void bagareInAVL(NodeBST*,NodeAVL**);
+void printLevel(NodeAVL*, int,FILE*);
+void printAVLTree(NodeAVL* , int );
+void elibereazaEchipeListaCastigatori(NodeCastigatori*);
+
 
