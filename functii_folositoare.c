@@ -9,6 +9,7 @@ void adaugaLaInceput(Node** head, Echipa* team)
     *head=newNode;
 }
 
+//functie ce adauga elemente la inceput pentru lista de ultimii 8 castigatori
 void adaugaLaInceputCastigatori8(NodeCastigatori** head,Echipa* team)
 {
     NodeCastigatori* newNode=(NodeCastigatori*)malloc(sizeof(NodeCastigatori));
@@ -176,6 +177,7 @@ void AdaugareInCoada(coada*q, Node_lista_coada* team)
     if(q->front == NULL) q->front = q->rear;
 }
 
+//functie de bagare in stiva pentru echipa1
 void BagaInStivaEchipa1(Stiva** top, Node_lista_coada* team )
 {
     Stiva* newNode=(Stiva*)malloc(sizeof(Stiva));
@@ -183,7 +185,7 @@ void BagaInStivaEchipa1(Stiva** top, Node_lista_coada* team )
     newNode->urmatorul = *top;
     *top = newNode;
 }
-
+//functie de bagare in stiva pentru echipa2
 void BagaInStivaEchipa2(Stiva** top, Node_lista_coada* team )
 {
     Stiva* newNode=(Stiva*)malloc(sizeof(Stiva));
@@ -192,6 +194,7 @@ void BagaInStivaEchipa2(Stiva** top, Node_lista_coada* team )
     *top = newNode;
 }
 
+//functie de stergere a cozii
 int isEmpty(coada* q)
 {
     return(q->front == NULL);
@@ -210,6 +213,7 @@ void stergereCoada(coada *q)
     
 }
 
+// functie de stiva in coada
 void AdaugareInCoadaStiva(coada*q, Echipa* team1, Echipa* team2)
 {
     Node_lista_coada* newNode = (Node_lista_coada*)malloc(sizeof(Node_lista_coada));
@@ -225,6 +229,7 @@ void AdaugareInCoadaStiva(coada*q, Echipa* team1, Echipa* team2)
     if(q->front == NULL) q->front = q->rear;
 }
 
+//functie de stergere stiva
 void stergereStiva(Stiva **top)
 {
     Stiva *temp;
@@ -236,17 +241,7 @@ void stergereStiva(Stiva **top)
     }
 
 }
-
-int putere_doi(int i)
-{
-    int putere=1;
-    for(int j=0; j<i;j++)
-    {
-        putere=putere*j;
-    }
-    return putere;
-}
-
+// functii de bagare in BST
 NodeBST* newNode(char* nume,float puncte)
 {
     NodeBST* node = (NodeBST*)malloc(sizeof(NodeBST));
@@ -278,6 +273,7 @@ NodeBST* insert(NodeBST* node, char* nume,float puncte)
     return node;
 }
 
+//functie printare BST
 void printare(NodeBST* root,FILE* out)
 {
     if (root != NULL)
@@ -289,8 +285,7 @@ void printare(NodeBST* root,FILE* out)
     }
 }
 
-
-
+//functii bagare in AVL
 int max(int a, int b)
 {
     return((a>b)?a:b);
@@ -373,7 +368,7 @@ void bagareInAVL(NodeBST* root,NodeAVL** rootAVL)
         
     }
 }
-
+//functie printare pe nivel AVL
 void printLevel(NodeAVL* root, int level,FILE* out)
 {
     if(root == NULL) return;
@@ -388,6 +383,7 @@ void printLevel(NodeAVL* root, int level,FILE* out)
         printLevel(root->left, level-1,out);
     }
 }
+//functie de eliberarea memoriei listei de castigatori
 void elibereazaEchipeListaCastigatori(NodeCastigatori* team)
 {
     NodeCastigatori* echipaCurenta = team;
@@ -399,4 +395,5 @@ void elibereazaEchipeListaCastigatori(NodeCastigatori* team)
         echipaCurenta=urmator;
     }
 }
+
 

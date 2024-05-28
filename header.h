@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+//structura pentru jucatori
 struct Player
 {
     char* firstName;
@@ -11,6 +12,7 @@ struct Player
 
 typedef struct Player Jucator;
 
+// structura pentru echipa
 struct echipa{
     int numarJucatori;
     float PuncteEchipa;
@@ -19,6 +21,7 @@ struct echipa{
 };
 typedef struct echipa Echipa;
 
+//structura pentru lista principala
 struct Elem{
     struct echipa* echipe;
     struct Elem* urmatorul;
@@ -26,6 +29,7 @@ struct Elem{
 
 typedef struct Elem Node;
 
+//structura pentru lista castigatori
 struct ElemCastigatori{
     float PuncteEchipa;
     char* numeEchipa;
@@ -34,7 +38,7 @@ struct ElemCastigatori{
 
 typedef struct ElemCastigatori NodeCastigatori;
 
-
+// structura pentru lista asociata cozii
 struct elem{
     Echipa* echipa1;
     Echipa* echipa2;
@@ -43,6 +47,7 @@ struct elem{
 
 typedef struct elem Node_lista_coada;
 
+//structura pentru lista asociata stivei
 struct stiva{
     Echipa* echipaStiva;
     struct stiva* urmatorul;
@@ -50,12 +55,14 @@ struct stiva{
 
 typedef struct stiva Stiva;
 
+//structura pentru coada
 struct Q{
     Node_lista_coada *front, *rear;
 };
 
 typedef struct Q coada;
 
+//structura pentru BST
 struct BST{
     char *numeEchipa;
     float PuncteEchipa;
@@ -65,6 +72,7 @@ struct BST{
 
 typedef struct BST NodeBST;
 
+// structura pentru AVL
 struct AVL{
     int height;
     char* numeEchipa;
@@ -73,6 +81,7 @@ struct AVL{
 };
 typedef struct AVL NodeAVL;
 
+//declararea functiilor in header
 void adaugaLaInceput(Node**, Echipa*);
 void adaugaLaInceputCastigatori8(NodeCastigatori**, Echipa*);
 void elibereazaEchipe(Node*);
