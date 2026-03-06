@@ -1,62 +1,64 @@
-Programul ce contine cod este alcatuit din 3 fisiere:
-fisierul lanParty.c ce este main-ul si contine:
--deschiderea fisierele si verificarea ca se pot citi date si ca se pot baga date in ele
--rezolvarea task-ului 1: 
-  >ciirea din fisierele ce contin date
-  >bagarea in lista a datelor(echipelor)
-  >afisarea listei(afisarea echipelor)
--rezolvarea task-ului 2:
-  >eliminarea din lista pana numarul de echipe este egal cu o putere de 2
-  >afisarea listei cu ecchipele ramase
--rezolvarea task-ului 3:
-  >bagarea echipelor in coada cu meciuri
-  >afisarea meciurilor din coada
-  >bagarea castigatorilor in stiva de castigatori
-  >bagarea pierzatorilor in stiva de pierzatori
-  >adaugarea unui punct fiecarui jucator dintr o echipa castigatoare(cresterea cu un punct al echipei)
-  >afisarea castigatorilor pana la ultimul castigator
-  >bagarea ultimilor 8 castigatori in lista
-  >bagarea din stiva castigatorilor in coada
--rezolvarea task-ului 4:
-  >crearea unui arbore BST
-  >bagarea ultimilor 8 in arborele BST
-  >afisarea arborelui BST
--rezolvarea task-ului 5:
-  >crearea arborelui AVL
-  >bagarea in AVL din BST
-  >afisarea nivelului 2 al arborelui AVL
--inchiderea fisierelor
--eliberarea memoriei
-fisierul functii_folositoare.c ce contine toate functiile folosite:
--functie adaugare in lista principala
--functie ce adauga elemente la inceput pentru lista de ultimii 8 castigatori
--functie adaugare in lista pentru coada
--functie adaugare la finalul listei pentru coada
--functie verificare daca un numar este putere a lui 2 (se verifica pe biti)
--functie de eliberare a memoriei pentru toate echipele
--functie eliberare memorie doar pentru o echipa
--functie gasire minimul punctelor unei echipe prin parcurgerea listei o singura data
--functie de stergere a unui element din lista
--functia principala de stergere a unui element din lista
--functie creare coada
--functie adaugare in coada
--functie de bagare in stiva pentru echipa1
--functie de bagare in stiva pentru echipa2
--functie de stergere a cozii
--functie de stiva in coada
--functii de bagare in BST
--functie printare BST
--functii bagare in AVL
--functie printare pe nivel AVL
--functie de eliberarea memoriei listei de castigatori
-fisierul header.h ce contine:
--structura pentru jucatori
--structura pentru echipa
--structura lista principala
--structura pentru lista castigatori
--structura pentru lista asociata cozii
--structura pentru lista asociata stivei
--structura pentru coada
--structura pentru BST
--structura pentru AVL
--declararea functiilor in header
+# 🏆 LanParty - Tournament Manager
+
+O aplicație complexă dezvoltată în **C** pentru gestionarea unei competiții de gaming. Proiectul utilizează structuri de date avansate pentru a procesa echipele, a simula meciurile și a genera clasamente finale.
+
+---
+
+## Structura Proiectului
+
+Proiectul este împărțit în trei module principale pentru o organizare eficientă:
+
+* **`lanParty.c`**: Punctul central al programului. Gestionează fluxul de execuție, fișierele de I/O și apelarea task-urilor.
+* **`functii_folositoare.c`**: "Motorul" aplicației. Conține implementările pentru liste, stive, cozi și arbori (BST/AVL).
+* **`header.h`**: Definirea structurilor de date și prototipurile funcțiilor utilizate.
+
+---
+
+## Task-uri Implementate
+
+### 1️ Gestiunea Echipelor
+* Deschiderea și validarea fișierelor de date.
+* Citirea informațiilor despre echipe și jucători.
+* Introducerea datelor într-o **listă simplu înlănțuită**.
+* Afișarea listei complete în fișierul de ieșire.
+
+### 2️ Filtrarea Participanților
+* Eliminarea echipelor cu punctajul cel mai mic până când numărul total devine o **putere a lui 2**.
+* Verificarea puterii lui 2 se realizează eficient prin **operații pe biți**.
+* Afișarea echipelor rămase pentru faza de concurs.
+
+### 3️ Simularea Competiției
+* **Cozi (Queues):** Organizarea meciurilor între echipe.
+* **Stive (Stacks):** Distribuirea automată în stiva de *Câștigători* și stiva de *Pierzători*.
+* **Update Scor:** Fiecare jucător din echipa câștigătoare primește +1 punct.
+* **Top 8:** Extragerea ultimelor 8 echipe rămase pentru fazele finale.
+
+### 4️ Clasament BST
+* Construirea unui **Arbore Binar de Căutare (BST)** folosind echipele din Top 8.
+* Afișarea arborelui pentru vizualizarea ierarhiei.
+
+### 5️ Ierarhia de Elită (AVL)
+* Crearea unui **Arbore AVL** (auto-echilibrat) prin inserarea datelor din BST.
+* Afișarea nodurilor de pe **nivelul 2** al arborelui AVL.
+
+---
+
+## Structuri de Date Utilizate
+
+* **Liste:** Pentru stocarea dinamică a echipelor.
+* **Cozi & Stive:** Pentru logica fluxului de meciuri.
+* **Arbori (BST & AVL):** Pentru sortare și organizare ierarhică eficientă.
+* **Gestiune Memorie:** Funcții dedicate de `free` pentru a preveni memory leak-urile.
+
+---
+
+## Compilare și Rulare
+
+Pentru a compila și rula proiectul, folosește următoarele comenzi în terminal:
+
+```bash
+# Compilare
+gcc lanParty.c functii_folositoare.c -o lanParty
+
+# Executție
+./lanParty c.in d.in r.out
