@@ -1,4 +1,4 @@
-# 🏆 LanParty - Tournament Manager
+# LanParty - Tournament Manager
 
 O aplicație complexă dezvoltată în **C** pentru gestionarea unei competiții de gaming. Proiectul utilizează structuri de date avansate pentru a procesa echipele, a simula meciurile și a genera clasamente finale.
 
